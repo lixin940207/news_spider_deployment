@@ -1,0 +1,9 @@
+{
+  "mongodb": {
+    "replicaSetHosts": "mongo.default.svc.cluster.local:27017",
+    "writeConcern": "majority",
+    "replicaSet": "rs0",
+    "readPreference": "primary",
+    "database": "news_spider"
+  }
+}

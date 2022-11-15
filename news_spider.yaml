@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: news-spider
+  labels:
+    app: news-spider
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: news-spider
+  template:
+    metadata:
+      labels:
+        app: news-spider
+    spec:
+      containers:
+        - args:
+            - node
+            - index.js
+          env:
+            - name: REDIS_HOST
+              value: 'redis-service.default.svc.cluster.local'
+            - name: REDIS_PORT
+              value: '6379'
+          name: news-spider
+          image: docker.io/xinli940207/news_spider:1.0.0
+          volumeMounts:
+            - mountPath: /news_spider/config.json
+              name: management-news-spider-config
+              readOnly: true
+              subPath: config.json
+      volumes:
+        - name: management-news-spider-config
+          secret:
+            secretName: management-news-spider-config.v1

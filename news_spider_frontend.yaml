@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: news-spider-frontend
+  labels:
+    app: news-spider-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: news-spider-frontend
+  template:
+    metadata:
+      labels:
+        app: news-spider-frontend
+    spec:
+      containers:
+        - args:
+            - yarn
+            - start
+          env:
+            - name: NEWS_SPIDER_API_HOST
+              value: 'news-spider-api.default.svc.cluster.local'
+            - name: NEWS_SPIDER_API_PORT
+              value: '5000'
+          name: news-spider-frontend
+          image: docker.io/xinli940207/news_spider_frontend:1.0.0
+          ports:
+            - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: news-spider-frontend
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 3000
+      targetPort: 3000
+  selector:
+    app: news-spider-frontend

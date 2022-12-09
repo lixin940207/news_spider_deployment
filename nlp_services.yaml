@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nlp-services
+  labels:
+    app: nlp-services
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nlp-services
+  template:
+    metadata:
+      labels:
+        app: nlp-services
+    spec:
+      containers:
+        - args:
+            - python
+            - server.py
+          env:
+            - name: REDIS_HOST
+              value: 'redis-service.default.svc.cluster.local'
+            - name: REDIS_PORT
+              value: '6379'
+          name: nlp-services
+          image: docker.io/xinli940207/nlp_services:1.1.1

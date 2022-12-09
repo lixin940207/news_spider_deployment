@@ -19,12 +19,12 @@ spec:
             - yarn
             - start
           env:
-            - name: NEWS_SPIDER_API_HOST
-              value: 'news-spider-api.default.svc.cluster.local'
-            - name: NEWS_SPIDER_API_PORT
+            - name: REACT_APP_NEWS_SPIDER_API_HOST
+              value: 'aede666ff6d774035a6b5c200fb0f088-1578147687.eu-west-3.elb.amazonaws.com'
+            - name: REACT_APP_NEWS_SPIDER_API_PORT
               value: '5000'
           name: news-spider-frontend
-          image: docker.io/xinli940207/news_spider_frontend:1.0.0
+          image: xinli940207/news_spider_frontend:1.1.2
           ports:
             - containerPort: 3000
 

@@ -18,19 +18,17 @@ spec:
         - args:
             - npm
             - start
+          env:
+            - name: MONGO_HOST
+              value: 'databaseAdmin:ziggr09kd1ZSdI1dk@mongo-cluster-rs0.default.svc.cluster.local'
+            - name: MONGO_PORT
+              value: '27017'
+            - name: DATABASE
+              value: 'admin'
           name: news-spider-api
-          image: docker.io/xinli940207/news_spider_api:1.0.0
+          image: docker.io/xinli940207/news_spider_api:1.1.2
           ports:
             - containerPort: 5000
-          volumeMounts:
-            - mountPath: /news_spider_api/config.json
-              name: management-api-config
-              readOnly: true
-              subPath: config.json
-      volumes:
-        - name: management-api-config
-          secret:
-            secretName: management-api-config.v1
 
 ---
 apiVersion: v1
@@ -38,6 +36,7 @@ kind: Service
 metadata:
   name: news-spider-api
 spec:
+  type: LoadBalancer
   ports:
     - port: 5000
   selector:
